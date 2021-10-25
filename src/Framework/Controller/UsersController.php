@@ -3,34 +3,23 @@ declare(strict_types=1);
 
 namespace RecruitmentApp\Framework\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
-use RecruitmentApp\Domain\Email;
-use RecruitmentApp\Domain\User;
-use RecruitmentApp\Domain\User\ApiKey;
+use RecruitmentApp\Framework\DTO\CreateUserRequest;
+use RecruitmentApp\Framework\Message\UserMessage;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\HandledStamp;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UsersController
 {
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
-
+    
     #[Route(path: '/users', name: 'index', methods: ['POST'])]
-    public function create(Request $request): JsonResponse
+    public function create(CreateUserRequest $request): JsonResponse
     {
-        $this->entityManager->persist(
-            $user = new User(
-                new Email($request->get('email')),
-                ApiKey::generate()
-            )
-        );
-        $this->entityManager->flush();
-
-        return new JsonResponse($user);
+        $envelope = $this->bus->dispatch(new UserMessage($request));
+        $user = $envelope->last(HandledStamp::class);
+        
+        return new JsonResponse($user, Response::HTTP_CREATED);
     }
 }

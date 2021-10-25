@@ -18,23 +18,23 @@ class User implements \JsonSerializable
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private int $id;
-
+    
     /**
      * @ORM\Column(type="string", length=255)
      */
     private Email $email;
-
+    
     /**
      * @ORM\Embedded(class="RecruitmentApp\Domain\User\ApiKey", columnPrefix=false)
      */
     private ApiKey $apiKey;
-
+    
     public function __construct(Email $email, ApiKey $apiKey)
     {
         $this->email = $email;
         $this->apiKey = $apiKey;
     }
-
+    
     public function jsonSerialize(): array
     {
         return [

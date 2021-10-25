@@ -20,3 +20,12 @@ services:
 
     RecruitmentApp\Infrastructure\:
         resource: '../src/Infrastructure/'
+
+    RecruitmentApp\Framework\EventListener\RequestValidationExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
+    RecruitmentApp\Framework\Http\RequestDTOResolver:
+        tags:
+            - { name: controller.request_value_resolver, priority: 50 }
+
