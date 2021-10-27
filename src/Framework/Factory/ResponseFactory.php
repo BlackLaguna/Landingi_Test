@@ -17,4 +17,9 @@ class ResponseFactory
     {
         return new JsonResponse(['No user found'], Response::HTTP_UNAUTHORIZED);
     }
+    
+    public function createOutOfRangePagination(): JsonResponse
+    {
+        return new JsonResponse(['Page not exist'], Response::HTTP_NOT_FOUND);
+    }
 }

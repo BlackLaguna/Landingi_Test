@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace RecruitmentApp\Framework\HTTP;
+namespace RecruitmentApp\Framework\Resolver;
 
 use JetBrains\PhpStorm\Pure;
 use RecruitmentApp\Framework\DTO\CreateArticleRequest;

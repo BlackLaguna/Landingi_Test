@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace RecruitmentApp\Framework\EventListener;
 
+use Pagerfanta\Exception\OutOfRangeCurrentPageException;
 use RecruitmentApp\Framework\Exception\ApiValidationException;
 use RecruitmentApp\Framework\Factory\ResponseFactory;
 use RecruitmentApp\Framework\Security\Exception\SimpleAuthException;
@@ -25,6 +26,10 @@ class RequestExceptionListener
         
         if ($event->getThrowable() instanceof SimpleAuthException) {
             $event->setResponse($this->responseFactory->createNoAuthResponse());
+        }
+        
+        if ($event->getThrowable() instanceof OutOfRangeCurrentPageException) {
+            $event->setResponse($this->responseFactory->createOutOfRangePagination());
         }
     }
 }

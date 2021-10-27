@@ -12,8 +12,8 @@ class CreateArticleRequest implements DTORequestInterface
     
     public function __construct(Request $request)
     {
-        $this->content = $request->get('content');
-        $this->title = $request->get('title');
+        $this->content = $request->query->get('content');
+        $this->title = $request->query->get('title');
     }
     
     public function getContent(): ?string

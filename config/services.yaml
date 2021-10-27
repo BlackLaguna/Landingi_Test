@@ -25,7 +25,7 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
-    RecruitmentApp\Framework\Http\RequestDTOResolver:
+    RecruitmentApp\Framework\Resolver\RequestDTOResolver:
         tags:
             - { name: controller.request_value_resolver, priority: 50 }
 

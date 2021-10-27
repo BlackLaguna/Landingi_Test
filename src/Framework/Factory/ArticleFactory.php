@@ -20,7 +20,7 @@ class ArticleFactory extends AbstractFactory
     {
         $article = new Article();
         
-        $article->setContent($DTO->getTitle());
+        $article->setContent($DTO->getContent());
         $article->setTitle($DTO->getTitle());
         $article->setAuthor($this->currentUser);
         
