@@ -5,9 +5,10 @@ namespace RecruitmentApp\Framework\EventListener;
 
 use RecruitmentApp\Framework\Exception\ApiValidationException;
 use RecruitmentApp\Framework\Factory\ResponseFactory;
+use RecruitmentApp\Framework\Security\Exception\SimpleAuthException;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
-class RequestValidationExceptionListener
+class RequestExceptionListener
 {
     private ResponseFactory $responseFactory;
     
@@ -20,6 +21,10 @@ class RequestValidationExceptionListener
     {
         if ($event->getThrowable() instanceof ApiValidationException) {
             $event->setResponse($this->responseFactory->createValidationResponse($event->getThrowable()->getMessage()));
+        }
+        
+        if ($event->getThrowable() instanceof SimpleAuthException) {
+            $event->setResponse($this->responseFactory->createNoAuthResponse());
         }
     }
 }

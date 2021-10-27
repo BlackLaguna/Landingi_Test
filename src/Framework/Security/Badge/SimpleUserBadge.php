@@ -5,6 +5,7 @@ namespace RecruitmentApp\Framework\Security\Badge;
 
 use phpDocumentor\Reflection\Types\Callable_;
 use RecruitmentApp\Domain\User;
+use RecruitmentApp\Framework\Security\Exception\SimpleAuthException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\AuthenticationServiceException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -37,7 +38,7 @@ class SimpleUserBadge implements BadgeInterface
             $this->user = ($this->userLoader)($this->userIdentifier);
 
             if (!$this->user instanceof User) {
-                throw new AuthenticationServiceException(sprintf('The user provider must return a UserInterface object, "%s" given.', get_debug_type($this->user)));
+                throw new SimpleAuthException();
             }
         }
         

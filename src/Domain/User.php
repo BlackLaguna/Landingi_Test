@@ -3,7 +3,10 @@ declare(strict_types=1);
 
 namespace RecruitmentApp\Domain;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use RecruitmentApp\Domain\User\ApiKey;
 
 /**
@@ -22,10 +25,16 @@ class User extends AbstractEntity implements \JsonSerializable
      */
     private ApiKey $apiKey;
     
+    /**
+     * @ORM\OneToMany(targetEntity="Article", cascade={"remove"}, mappedBy="author")
+     */
+    private Collection $articles;
+    
     public function __construct(Email $email, ApiKey $apiKey)
     {
         $this->email = $email;
         $this->apiKey = $apiKey;
+        $this->articles = new ArrayCollection();
     }
     
     public function jsonSerialize(): array
@@ -34,6 +43,19 @@ class User extends AbstractEntity implements \JsonSerializable
             'email' => (string) $this->email,
             'api_key' => (string) $this->apiKey,
         ];
+    }
+    
+    public function addArticle(Article $article)
+    {
+        if (!$this->articles->contains($article)) {
+            $this->articles->add($article);
+            $article->setAuthor($this);
+        }
+    }
+    
+    public function getArticle(): ArrayCollection
+    {
+        return $this->articles;
     }
     
     public function getEmail(): string

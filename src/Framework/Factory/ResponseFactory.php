@@ -13,8 +13,8 @@ class ResponseFactory
         return new JsonResponse(['error' => $errors], Response::HTTP_BAD_REQUEST);
     }
     
-    public function createApiResponse(array $data): JsonResponse
+    public function createNoAuthResponse(): JsonResponse
     {
-        return new JsonResponse($data, Response::HTTP_OK);
+        return new JsonResponse(['No user found'], Response::HTTP_UNAUTHORIZED);
     }
 }

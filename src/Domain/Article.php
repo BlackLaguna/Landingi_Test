@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Article extends AbstractEntity implements \JsonSerializable
 {
     /**
-     * @ORM\ManyToOne(targetEntity="User", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="articles", cascade={"remove"})
      */
     private User $author;
     
