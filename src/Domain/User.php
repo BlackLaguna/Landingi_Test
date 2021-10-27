@@ -33,6 +33,7 @@ class User extends AbstractEntity implements \JsonSerializable
     {
         $this->email = $email;
         $this->apiKey = $apiKey;
+        $this->articles = new ArrayCollection();
     }
     
     public function jsonSerialize(): array
@@ -43,12 +44,25 @@ class User extends AbstractEntity implements \JsonSerializable
         ];
     }
     
+    public function addArticle(Article $article): void
+    {
+        if (!$this->articles->contains($article)) {
+            $this->articles->add($article);
+            $article->setAuthor($this);
+        }
+    }
+    
+    public function getArticle(): Collection
+    {
+        return $this->articles;
+    }
+    
     public function getEmail(): string
     {
         return (string) $this->email;
     }
     
-    public function setEmail(string $email)
+    public function setEmail(string $email): void
     {
         $this->email = new Email($email);
     }

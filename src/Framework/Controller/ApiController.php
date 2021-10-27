@@ -5,6 +5,7 @@ namespace RecruitmentApp\Framework\Controller;
 
 use Pagerfanta\Pagerfanta;
 use RecruitmentApp\Framework\Pagination\Factory\ORMPagerFantaFactory;
+use RecruitmentApp\Framework\Repository\AbstractRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 abstract class ApiController extends AbstractController
@@ -18,8 +19,11 @@ abstract class ApiController extends AbstractController
     
     protected function createPaginated(string $className, int $page = 1, int $perPage = 5): Pagerfanta
     {
+        /** @var AbstractRepository $repository */
+        $repository = $this->getDoctrine()->getRepository($className);
+        
         return $this->pagerFantaFactory->create(
-            $this->getDoctrine()->getRepository($className)->queryAll(),
+            $repository->queryAll(),
             $page,
             $perPage
         );

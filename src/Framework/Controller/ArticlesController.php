@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace RecruitmentApp\Framework\Controller;
 
-use JetBrains\PhpStorm\Pure;
 use RecruitmentApp\Domain\Article;
 use RecruitmentApp\Framework\DTO\CreateArticleRequest;
 use RecruitmentApp\Framework\Factory\ArticleFactory;
@@ -18,10 +17,10 @@ class ArticlesController extends ApiController
 {
     private ArticleFactory $articleFactory;
     
-    #[Pure] function __construct(ORMPagerFantaFactory $pagerFantaFactory, ArticleFactory $articleFactory)
+    public function __construct(ORMPagerFantaFactory $pagerFantaFactory, ArticleFactory $articleFactory)
     {
-        parent::__construct($pagerFantaFactory);
         $this->articleFactory = $articleFactory;
+        parent::__construct($pagerFantaFactory);
     }
     
     #[Route(name: 'create_article', methods: ['POST'])]

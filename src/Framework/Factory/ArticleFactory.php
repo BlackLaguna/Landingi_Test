@@ -10,7 +10,8 @@ use RecruitmentApp\Framework\DTO\DTORequestInterface;
 
 class ArticleFactory extends AbstractFactory
 {
-    private ?User $currentUser = null;
+    /** @var User|null|object  */
+    private $currentUser = null;
     
     /**
      * @param CreateArticleRequest $DTO
@@ -33,7 +34,7 @@ class ArticleFactory extends AbstractFactory
     /**
      * @param object|User $user
      */
-    public function setCurrentUser(User $user)
+    public function setCurrentUser($user): void
     {
         $this->currentUser = $user;
     }

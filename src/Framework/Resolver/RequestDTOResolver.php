@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace RecruitmentApp\Framework\Resolver;
 
-use JetBrains\PhpStorm\Pure;
 use RecruitmentApp\Framework\DTO\CreateArticleRequest;
 use RecruitmentApp\Framework\DTO\CreateUserRequest;
 use RecruitmentApp\Framework\Exception\ApiValidationException;
@@ -23,7 +22,7 @@ class RequestDTOResolver implements ArgumentValueResolverInterface
         $this->validator = $validator;
     }
     
-    #[Pure] public function supports(Request $request, ArgumentMetadata $argument): bool
+    public function supports(Request $request, ArgumentMetadata $argument): bool
     {
         return match ($argument->getType()) {
             CreateArticleRequest::class, CreateUserRequest::class => true,
@@ -47,7 +46,7 @@ class RequestDTOResolver implements ArgumentValueResolverInterface
         yield $dto;
     }
     
-    #[Pure] private function extractErrorsFromViolationList(ConstraintViolationListInterface $violations): string
+    private function extractErrorsFromViolationList(ConstraintViolationListInterface $violations): string
     {
         $errors = '';
         

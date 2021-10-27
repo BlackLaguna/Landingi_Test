@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace RecruitmentApp\Domain;
 
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Object_;
 
 /**
  * @ORM\Entity(repositoryClass="RecruitmentApp\Framework\Repository\ArticleRepository")
@@ -32,7 +33,7 @@ class Article extends AbstractEntity implements \JsonSerializable
     }
     
     /**
-     * @param object|User $author
+     * @param User $author
      */
     public function setAuthor(User $author): void
     {

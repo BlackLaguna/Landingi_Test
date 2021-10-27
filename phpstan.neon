@@ -1,4 +1,10 @@
 includes:
 	- vendor/landingi/php-coding-standards/phpstan.neon
 parameters:
-
+    ignoreErrors:
+        - '#Match expression does not handle remaining values:#'
+        - '#maxPerPage of method Pagerfanta#'
+        - '#currentPage of method Pagerfanta#'
+        - '#persistentObject of method Doctrine#'
+        - '#author of method RecruitmentApp\\Domain\\Article\:\:setAuthor\(\) expects RecruitmentApp\\Domain\\User, object\|null given#'
+        - '#Unable to resolve the template type T in call to method Doctrine#'

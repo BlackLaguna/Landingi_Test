@@ -37,7 +37,9 @@ class SimpleUserPassport implements PassportInterface
                 throw new \LogicException('Cannot get the Security user, no username or UserBadge configured for this passport.');
             }
             
-            $this->user = $this->getBadge(SimpleUserBadge::class)->getUser();
+            /** @var SimpleUserBadge $budge */
+            $budge = $this->getBadge(SimpleUserBadge::class);
+            $this->user = $budge->getUser();
         }
         
         return $this->user;
@@ -48,7 +50,7 @@ class SimpleUserPassport implements PassportInterface
         $this->attributes[$name] = $value;
     }
     
-    public function getAttribute(string $name, Mixed_ $default = null)
+    public function getAttribute(string $name, Mixed_ $default = null): Mixed_
     {
         return $this->attributes[$name] ?? $default;
     }

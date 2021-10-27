@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace RecruitmentApp\Framework\Security\Badge;
 
 use phpDocumentor\Reflection\Types\Callable_;
+use PHPStan\Type\CallableType;
 use RecruitmentApp\Domain\User;
 use RecruitmentApp\Framework\Security\Exception\SimpleAuthException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -18,7 +19,7 @@ class SimpleUserBadge implements BadgeInterface
     private ?\Closure $userLoader;
     private string $userIdentifier;
     
-    public function __construct(string $userIdentifier, callable $userLoader)
+    public function __construct(string $userIdentifier, ?\Closure $userLoader)
     {
         $this->userIdentifier = $userIdentifier;
         $this->userLoader = $userLoader;
@@ -55,7 +56,7 @@ class SimpleUserBadge implements BadgeInterface
         return $this->userLoader;
     }
     
-    public function setUserLoader(callable $userLoader = null): void
+    public function setUserLoader(\Closure $userLoader = null): void
     {
         $this->userLoader = $userLoader;
     }

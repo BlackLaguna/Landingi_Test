@@ -16,8 +16,6 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationExc
 use Symfony\Component\Security\Core\Exception\LogicException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
-use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
-use Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken;
 
 class ApiKeyAuthenticator extends AbstractAuthenticator
 {
@@ -45,10 +43,13 @@ class ApiKeyAuthenticator extends AbstractAuthenticator
         return new SimpleUserPassport(new SimpleUserBadge($apiToken, function ($apiToken) {
             return $this->userRepository->findOneBy(['apiKey.key' => $apiToken]);
         }));
-        
-        return new SelfValidatingPassport(new SimpleUserBadge($apiToken));
     }
     
+    /**
+     * @param PassportInterface $passport
+     * @param string $firewallName
+     * @return TokenInterface
+     */
     public function createAuthenticatedToken(PassportInterface $passport, string $firewallName): TokenInterface
     {
         if (!$passport instanceof SimpleUserPassport) {

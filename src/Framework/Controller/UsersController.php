@@ -34,7 +34,11 @@ class UsersController extends ApiController
     public function create(CreateUserRequest $request): JsonResponse
     {
         $envelope = $this->messageBus->dispatch(new UserMessage($request));
-        $user = $envelope->last(HandledStamp::class)->getResult();
+        
+        /** @var HandledStamp $stamp */
+        $stamp = $envelope->last(HandledStamp::class);
+        
+        $user = $stamp->getResult();
         
         return new JsonResponse($user, Response::HTTP_CREATED);
     }
