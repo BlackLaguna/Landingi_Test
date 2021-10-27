@@ -6,20 +6,13 @@ namespace RecruitmentApp\Domain;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="RecruitmentApp\Framework\Repository\ArticleRepository")
  * @ORM\Table(name="article")
  */
-class Article implements \JsonSerializable
+class Article extends AbstractEntity implements \JsonSerializable
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private ?int $id;
-    
-    /**
-     * @ORM\ManyToOne(targetEntity="User", cascade={"DELETE"})
+     * @ORM\ManyToOne(targetEntity="User", cascade={"remove"})
      */
     private User $author;
     
@@ -33,16 +26,14 @@ class Article implements \JsonSerializable
      */
     private string $content;
     
-    public function getId(): int
-    {
-        return $this->id;
-    }
-    
     public function getAuthor(): User
     {
         return $this->author;
     }
     
+    /**
+     * @param object|User $author
+     */
     public function setAuthor(User $author): void
     {
         $this->author = $author;
@@ -71,7 +62,7 @@ class Article implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'author' => $this->author->jsonSerialize(),
+            'author' => $this->author->getEmail(),
             'title' => $this->title,
             'content' => $this->content,
         ];

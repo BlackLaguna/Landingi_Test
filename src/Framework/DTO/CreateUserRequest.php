@@ -6,7 +6,7 @@ namespace RecruitmentApp\Framework\DTO;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CreateUserRequest
+class CreateUserRequest implements DTORequestInterface
 {
     /**
      * @Assert\Email(message="The email '{{ value }}' is not a valid email.")

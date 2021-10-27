@@ -1,0 +1,13 @@
+framework:
+    messenger:
+        default_bus: query.bus
+        transports:
+            # https://symfony.com/doc/current/messenger.html#transport-configuration
+            # async: '%env(MESSENGER_TRANSPORT_DSN)%'
+            # failed: 'doctrine://default?queue_name=failed'
+            sync: 'sync://'
+
+        routing:
+             'RecruitmentApp\Framework\Message\UserMessage': sync
+        buses:
+            query.bus: ~

@@ -1,0 +1,9 @@
+security:
+    enable_authenticator_manager: true
+
+    firewalls:
+        main:
+            custom_authenticators:
+                - RecruitmentApp\Framework\Security\ApiKeyAuthenticator
+    access_control:
+      - { path: ^/articles, roles: ROLE_USER }

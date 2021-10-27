@@ -12,4 +12,9 @@ class ResponseFactory
     {
         return new JsonResponse(['error' => $errors], Response::HTTP_BAD_REQUEST);
     }
+    
+    public function createApiResponse(array $data): JsonResponse
+    {
+        return new JsonResponse($data, Response::HTTP_OK);
+    }
 }

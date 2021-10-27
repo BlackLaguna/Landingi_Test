@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Email
 {
     /**
-     * @ORM\Column(type = "string")
+     * @ORM\Column(type = "string", length=255)
      */
     private string $email;
 
@@ -23,6 +23,16 @@ class Email
         $this->email = $email;
     }
 
+    public function setEmail(string $email)
+    {
+        $this->email = $email;
+    }
+    
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+    
     public function __toString()
     {
         return $this->email;
