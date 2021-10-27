@@ -7,3 +7,4 @@ security:
                 - RecruitmentApp\Framework\Security\ApiKeyAuthenticator
     access_control:
       - { path: ^/articles, roles: ROLE_USER }
+      - { path: ^/users, roles: ROLE_USER, methods: [DELETE]}

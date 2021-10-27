@@ -19,6 +19,6 @@ class UserMessageHandler implements MessageHandlerInterface
     
     public function __invoke(UserMessage $message): User
     {
-        return $this->userFactory->createFromRequest($message->getCreateUserRequest());
+        return $this->userFactory->createFromDTO($message->getCreateUserRequest());
     }
 }

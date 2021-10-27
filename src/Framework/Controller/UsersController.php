@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace RecruitmentApp\Framework\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
-use ECSPrefix20210712\Symfony\Component\HttpFoundation\Request;
 use RecruitmentApp\Framework\DTO\CreateUserRequest;
 use RecruitmentApp\Framework\Message\UserMessage;
 use RecruitmentApp\Framework\Pagination\Factory\ORMPagerFantaFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
@@ -30,7 +30,7 @@ class UsersController extends ApiController
         $this->entityManager = $entityManager;
     }
     
-    #[Route(path: '/', name: 'index', methods: ['POST'])]
+    #[Route(name: 'index', methods: ['POST'])]
     public function create(CreateUserRequest $request): JsonResponse
     {
         $envelope = $this->messageBus->dispatch(new UserMessage($request));
@@ -39,7 +39,7 @@ class UsersController extends ApiController
         return new JsonResponse($user, Response::HTTP_CREATED);
     }
     
-    #[Route(path: '/', name: 'delete_user', methods: ['DELETE'])]
+    #[Route(name: 'delete_user', methods: ['DELETE'])]
     public function delete(Request $request): JsonResponse
     {
         $this->entityManager->remove($this->getUser());
