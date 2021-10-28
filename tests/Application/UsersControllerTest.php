@@ -3,26 +3,31 @@ declare(strict_types=1);
 
 namespace Tests\Application;
 
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
-class UsersControllerTest extends WebTestCase
+class UsersControllerTest extends TestAbstractApplication
 {
-    private KernelBrowser $client;
-
-    protected function setUp(): void
-    {
-        $this->client = self::createClient();
-    }
-
+    public const TEST_USER_EMAIL = 'email@domain.com';
+    
     public function testCreateUser(): void
     {
-        $this->client->request(
-            method: 'POST',
-            uri: '/users',
-            parameters: ['email' => 'email@domain.com'],
-            server: [],
-        );
+        $userApiKey = $this->getNewUserApiKeys();
         self::assertResponseIsSuccessful();
+        $this->assertNotNull($this->userRepository->findOneBy(['apiKey.key' => $userApiKey]));
+    }
+    
+    public function testDeleteUser(): void
+    {
+        $userApiKey = $this->getNewUserApiKeys();
+        $this->createArticle($userApiKey, 'test', 'test');
+        $this->assertNotNull($this->userRepository->findOneBy(['apiKey.key' => $userApiKey]));
+        $this->assertNotNull($this->articleRepository->findOneBy(['title' => 'test', 'content' => 'test']));
+        
+        $this->client->request(
+            method: 'DELETE',
+            uri: '/users',
+            server: ['HTTP_API_KEY' => $userApiKey],
+        );
+        
+        $this->assertNull($this->userRepository->findOneBy(['apiKey.key' => $userApiKey]));
+        $this->assertNull($this->articleRepository->findOneBy(['title' => 'test', 'content' => 'test']));
     }
 }

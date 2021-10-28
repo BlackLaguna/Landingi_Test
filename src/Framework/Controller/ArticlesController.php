@@ -37,6 +37,10 @@ class ArticlesController extends ApiController
     {
         $pagerFanta = $this->createPaginated(Article::class, $request->query->getInt('page', 1));
         
-        return new JsonResponse($pagerFanta->getCurrentPageResults());
+        return new JsonResponse([
+            'content' => $pagerFanta->getCurrentPageResults(),
+            'total_page' => $pagerFanta->getNbPages(),
+            'current_page' => $pagerFanta->getCurrentPage()
+        ]);
     }
 }
