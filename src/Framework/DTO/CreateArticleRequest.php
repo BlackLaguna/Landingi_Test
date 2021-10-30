@@ -13,8 +13,8 @@ class CreateArticleRequest implements DTORequestInterface
     public function __construct(Request $request)
     {
         $requestContent = (array) json_decode($request->getContent());
-        $this->content = $requestContent['content'];
-        $this->title = $requestContent['title'];
+        $this->content = $requestContent['content'] ?? '';
+        $this->title = $requestContent['title'] ?? '';
     }
     
     public function getContent(): ?string
